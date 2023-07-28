@@ -3,20 +3,17 @@
 
 function findMinMax(array) {
     let totalSum = 0;
-    let minSum = 0;
-    let maxSum = 0;
+    let currentSum = [];
   
     for (let i=0;i<array.length;i++) {
       totalSum += array[i];
     }
 
-    minSum = totalSum;
-
     for (let j = 0; j < array.length; j++) {
-      const currentSum = totalSum - array[j];
-      minSum = Math.min(minSum, currentSum);
-      maxSum = Math.max(maxSum, currentSum);
+      currentSum.push(totalSum - array[j]);
     }
+   let minSum = Math.min(...currentSum);
+   let maxSum = Math.max(...currentSum)
     console.log(`Minimum sum: ${minSum}` + "\n" + `Maximum sum: ${maxSum}`);
 }
   
