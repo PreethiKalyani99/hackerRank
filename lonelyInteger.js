@@ -5,6 +5,7 @@ function lonelyInteger(arr){
     for (let i = 0; i < arr.length; i++) {
         const num = arr[i];
         repeatedCount[num] = (repeatedCount[num] || 0) + 1;
+        console.log(repeatedCount);
     }
 
    for(const [key, value] of Object.entries(repeatedCount)){
