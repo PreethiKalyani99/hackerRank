@@ -1,9 +1,9 @@
 function superDigit(num, k){
-    let p = 0;
-    for(let i = 0; i < num.length; i++){
-        p += Number(num[i])
-    }
-    console.log(p);
+    let p;
+    // for(let i = 0; i < num.length; i++){
+    //     p += Number(num[i])
+    // }
+    p = num.split('').reduce((acc, cur) => {return acc + Number(cur)},0 )
     if(k > 0){
        p = p * k
     }
@@ -17,11 +17,6 @@ function isSuperDigit(num, k){
 
     let digit = superDigit(num, k)
 
-    if(digit.length === 1){
-        return digit
-    }
-    else{
-        return isSuperDigit(digit,0)
-    }
+    return isSuperDigit(digit,0)
 }
-console.log(isSuperDigit('8000000',4))
+console.log(isSuperDigit('9875',4))
