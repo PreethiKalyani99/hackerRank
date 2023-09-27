@@ -7,7 +7,7 @@ function bomberMan(n, grid) {
   
     for (let seconds = 1; seconds <= n; seconds++) {
       if (seconds > 1) {
-        if (seconds % 2 !== 0) {
+        if (seconds % 3 === 0) {
             for (let i = 0; i < bombIndex.length; i++) {
                 let row = bombIndex[i][0];
                 let column = bombIndex[i][1];
@@ -33,21 +33,13 @@ function bomberMan(n, grid) {
   
     grid = grid.map(row => row.join(''));
 
-    for(let row of grid){
-        console.log(row)
-    }
-  
+    return grid
   }
   
 const grid = [
-    '.......',
-    '...O...',
-    '....O..',
-    '.......',
-    'OO.....',
-    'OO.....'
+    '..O.','O...','.O..'
 ];
   
 const n = 3;
-bomberMan(n, grid);
+console.log(bomberMan(n, grid));
   
