@@ -1,13 +1,12 @@
-function priceAverage(price1,price2){
-    return Math.floor((price1 + price2) / 2)
-}
-let toppings = {
-    'extra cheese' : {'small' : 20, 'medium': 40, 'large': 60, 'student': priceAverage(20,40) },
-    'tomato': {'small' : 20, 'medium': 40, 'large': 60, 'student': priceAverage(20,40)},
-    'black olives': {'small' : 20, 'medium': 40, 'large': 60, 'student': priceAverage(20,40)},
-    'onions': {'small' : 20, 'medium': 40, 'large': 60, 'student': priceAverage(20,40)},
-    'extra chicken': {'small' : 20, 'medium': 40, 'large': 60, 'student': priceAverage(20,40)}
-}
+const toppingData = [
+    {toppingName: 'extra cheese'},
+    {toppingName: 'black olives'},
+    {toppingName: 'extra chicken'},
+    {toppingName: 'onions'},
+]
+
+let smallToppingPrice = 20, mediumToppingPrice = 40, largeToppingPrice = 60
+
 const pizzaData = [
     { pizzaType: 'nonveg', pizzaName: 'paneer chicken',smallPrice: 140, mediumPrice: 240, largePrice: 380 },
     { pizzaType: 'nonveg', pizzaName: 'chicken dominator',smallPrice: 150, mediumPrice: 250, largePrice: 390 },
@@ -17,10 +16,31 @@ const pizzaData = [
     { pizzaType: 'veg', pizzaName: 'tandoori paneer', smallPrice: 150, mediumPrice: 250, largePrice: 370 },
 ]
 
+
+function priceAverage(price1,price2){
+    return Math.floor((price1 + price2) / 2)
+}
+
+function toppingMenu(toppingData){
+    let menuCard = {}
+
+    for(const topping of toppingData){
+        const {toppingName} = topping
+
+        if(!menuCard[toppingName]){
+            menuCard[toppingName] = {}
+        }
+        menuCard[toppingName]['small'] = smallToppingPrice
+        menuCard[toppingName]['medium'] = mediumToppingPrice
+        menuCard[toppingName]['large'] = largeToppingPrice
+        menuCard[toppingName]['student'] = priceAverage(smallToppingPrice, mediumToppingPrice)
+    }
+    return menuCard
+}
+
 function pizzaMenu(pizzaData){
     let menuCard = {}
     for(const pizza of pizzaData){
-        // console.log(pizza);
         const {pizzaType, pizzaName, smallPrice, mediumPrice, largePrice} = pizza
 
          if(!menuCard[pizzaType]){
@@ -35,16 +55,15 @@ function pizzaMenu(pizzaData){
         menuCard[pizzaType][pizzaName]['large'] = largePrice
         menuCard[pizzaType][pizzaName]['student'] = priceAverage(smallPrice, mediumPrice)
     }
-    // console.log(menuCard);
     return menuCard
 }
-// pizzaMenu(pizzaData)
 
+let toppingMenuCard = toppingMenu(toppingData)
 let pizzaMenuCard = pizzaMenu(pizzaData)
 
 function validateOrder(pizzaType, pizza, size, toppingsList){
 
-    const unavailableToppings = toppingsList.filter(topping => !toppings[topping])
+    const unavailableToppings = toppingsList.filter(topping => !toppingMenuCard[topping])
     
     if(!pizzaMenuCard[pizzaType]){
         return {isValid: false, reason : `PizzaType "${pizzaType}" is not available`}
@@ -75,7 +94,7 @@ function pizzaPriceCalculator(pizzaOrder){
         let toppingsTotal = 0
         if(toppingsList){
             toppingsTotal += toppingsList.reduce((acc,cur) =>{
-                acc += toppings[cur][size]
+                acc += toppingMenuCard[cur][size]
                 return acc
             },0)
             
@@ -83,13 +102,13 @@ function pizzaPriceCalculator(pizzaOrder){
         
         const pizzaPrice = pizzaMenuCard[pizzaType][pizza][size]
         total = pizzaPrice + toppingsTotal + total;
-        orderDetails.push(`"${pizzaType}" - "${pizza}" pizza "${size}" with toppings "${toppingsList}"`);
+        orderDetails.push(`"${pizzaType}" - "${pizza}" "${size}" pizza with toppings "${toppingsList}"`);
     }
     return `Your order details are: ${orderDetails.join(' & ')} and the total is: ${total}`;
 }
 
 const pizzaOrder = [
     {pizzaType: 'veg', pizza: 'Mexican green wave', size: 'student', toppingsList: ['extra chicken', 'black olives']},
-    // {pizzaType: 'nonveg', pizza: 'paneer chicken', size: 'large', toppingsList: ['extra chicken', 'black olives']}
+    {pizzaType: 'nonveg', pizza: 'paneer chicken', size: 'large', toppingsList: ['extra chicken', 'black olives']}
 ]
 console.log(pizzaPriceCalculator(pizzaOrder));
