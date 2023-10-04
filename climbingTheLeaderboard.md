@@ -3,7 +3,7 @@ Hacker rank - Climbing the leaderboard
 -Summary
 	. Input: 2 arrays. 
 		1. Already ranked scores. Example, ranked scores = [100, 100, 50, 40, 40, 20, 10]. This input will be in descending order.
-		2. New players scores. Example, new scores = [5, 40, 50, 120]. This input will be in descending order
+		2. New players scores. Example, new scores = [5, 40, 50, 120]. This input will be in ascending order
 
 	. We have to find the rank of new scores
 
@@ -25,9 +25,9 @@ Hacker rank - Climbing the leaderboard
 
 	.Now we have to initialize an array for the rank. RANK = []
 	
-	.If we take the first value of new scores array -> 5. This is the least value. So the rank will be length of array + 1 = 6. This value will be pushed in rank array => [6]
+	.If we take the first value of new scores array -> 5. This is the least value. So the rank will be length of array + 1 = 6 --> because index value starts from 0. This value will be pushed in rank array => [6]
 
-	.Second value -> 40, this is not the highest or lowest score. We can find the rank of the value using binary search. In binary search, we will divide the array into half and we check if the value lies in first half or second half. If it is in first half, we will not check the second half.
+	.Second value -> 40, this is not the highest or lowest score. We can find the rank of the value using binary search. In binary search, we will divide the array into 2 halves and we check if the value lies in first half or second half. If it is in first half, we will not check the second half and vice-versa.
 
 	.We have to find mid value. Here mid value is 2. UniqueScores[2] = 40. Both the values are same (40 === 40). So we can return the (mid + 1) -> because index value starts from 0. => [6,3]
 
