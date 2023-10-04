@@ -23,7 +23,7 @@ function rankUsingBinarySearch(score, uniqueScores) {
     else if (uniqueScores[mid] > score && uniqueScores[mid + 1] < score) {
       return mid + 2;
     } 
-    else if (uniqueScores[mid] < score && uniqueScores[mid - 1 > score]) {
+    else if (uniqueScores[mid] < score && uniqueScores[mid - 1] > score) {
       return mid - 1;
     }
     else if (score < uniqueScores[mid]) {
@@ -34,4 +34,4 @@ function rankUsingBinarySearch(score, uniqueScores) {
     }
   }
 }
-console.log(climbingLeaderboard([100, 100, 50, 40, 40, 20, 10], [5, 40, 50,12])) //output -> 6 4 2 1
+console.log(climbingLeaderboard([100, 100, 50, 40, 40, 20, 10], [5, 40, 50,120])) //output -> 6 3 2 1

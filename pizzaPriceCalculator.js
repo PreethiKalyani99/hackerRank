@@ -76,13 +76,13 @@ function pizzaPriceCalculator(pizzaOrder){
         
         const pizzaPrice = pizzaMenuCard[pizzaType][pizza][size]
         total = pizzaPrice + toppingsTotal + total;
-        orderDetails.push(`${pizzaType} - ${pizza} pizza ${size} with toppings ${toppingsList}`);
+        orderDetails.push(`"${pizzaType}" - "${pizza}" pizza "${size}" with toppings "${toppingsList}"`);
     }
     return `Your order details are: ${orderDetails.join(' & ')} and the total is: ${total}`;
 }
 
 const pizzaOrder = [
     {pizzaType: 'veg', pizza: 'Mexican green wave', size: 'small', toppingsList: ['extra chicken', 'black olives']},
-    {pizzaType: 'nonveg', pizza: 'paneer chicken', size: 'large', toppingsList: ['extra chicken', 'black olives']}
+    {pizzaType: 'nonveg', pizza: 'paneer green chicken', size: 'large', toppingsList: ['extra chicken', 'black olives']}
 ]
 console.log(pizzaPriceCalculator(pizzaOrder));
