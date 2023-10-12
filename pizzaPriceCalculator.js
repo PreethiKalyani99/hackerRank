@@ -1,11 +1,11 @@
-// const toppingData = [
-//     {toppingName: 'extra cheese'},
-//     {toppingName: 'black olives'},
-//     {toppingName: 'extra chicken'},
-//     {toppingName: 'onions'},
-// ]
+const toppingData = [
+    {toppingName: 'extra cheese'},
+    {toppingName: 'black olives'},
+    {toppingName: 'extra chicken'},
+    {toppingName: 'onions'},
+]
 
-// let smallToppingPrice = 20, mediumToppingPrice = 40, largeToppingPrice = 60
+let smallToppingPrice = 20, mediumToppingPrice = 40, largeToppingPrice = 60
 
 const pizzaData = [
     { pizzaType: 'nonveg', pizzaName: 'paneer chicken',smallPrice: 140, mediumPrice: 240, largePrice: 380 },
@@ -14,6 +14,7 @@ const pizzaData = [
     { pizzaType: 'veg', pizzaName: 'Mexican green wave',smallPrice: 120, mediumPrice: 220, largePrice: 350 },
     { pizzaType: 'veg', pizzaName: 'cheese N corn',smallPrice: 130, mediumPrice: 240, largePrice: 370 },
     { pizzaType: 'veg', pizzaName: 'tandoori paneer', smallPrice: 150, mediumPrice: 250, largePrice: 370 },
+    { pizzaType: 'nonveg', pizzaName: 'tandoori paneer', smallPrice: 150, mediumPrice: 250, largePrice: 370 }
 ]
 
 // PizzaType,PizzaName,SmallPrice,MediumPrice,largePrice
@@ -24,22 +25,27 @@ function priceAverage(price1,price2){
     return Math.floor((price1 + price2) / 2)
 }
 
-// function toppingMenu(toppingData){
-//     let menuCard = {}
+function toppingMenu(toppingData){
+    let menuCard = {}
+    let toppingMenuArr = []
+    const studentToppingPrice = priceAverage(smallToppingPrice, mediumToppingPrice)
+    toppingMenuArr.push('toppingName, smallToppingPrice, mediumToppingPrice, largeToppingPrice, studentToppingPrice')
 
-//     for(const topping of toppingData){
-//         const {toppingName} = topping
+    for(const topping of toppingData){
+        const {toppingName} = topping
 
-//         if(!menuCard[toppingName]){
-//             menuCard[toppingName] = {}
-//         }
-//         menuCard[toppingName]['small'] = smallToppingPrice
-//         menuCard[toppingName]['medium'] = mediumToppingPrice
-//         menuCard[toppingName]['large'] = largeToppingPrice
-//         menuCard[toppingName]['student'] = priceAverage(smallToppingPrice, mediumToppingPrice)
-//     }
-//     return menuCard
-// }
+        if(!menuCard[toppingName]){
+            menuCard[toppingName] = {}
+        }
+        menuCard[toppingName]['small'] = smallToppingPrice
+        menuCard[toppingName]['medium'] = mediumToppingPrice
+        menuCard[toppingName]['large'] = largeToppingPrice
+        menuCard[toppingName]['student'] = priceAverage(smallToppingPrice, mediumToppingPrice)
+        toppingMenuArr.push(`${toppingName}, ${smallToppingPrice}, ${mediumToppingPrice}, ${largeToppingPrice}, ${studentToppingPrice}`)
+    }
+    // console.log(menuCard,"Tmenucard")
+    return toppingMenuArr.join('\n')
+}
 
 function pizzaMenu(pizzaData){
     let menuCard = {}
@@ -47,37 +53,50 @@ function pizzaMenu(pizzaData){
     pizzaMenuArr.push('pizzaType, pizzaName, smallPrice, mediumPrice, largePrice')
     for(const pizza of pizzaData){
         const {pizzaType, pizzaName, smallPrice, mediumPrice, largePrice} = pizza
+        const studentPrice = priceAverage(smallPrice, mediumPrice)
+        
         if(!menuCard[pizzaType]){
             menuCard[pizzaType] = {}
         }
         if(!menuCard[pizzaType][pizzaName]){
             menuCard[pizzaType][pizzaName] = {}
         }
-        let studentPrice = priceAverage(smallPrice, mediumPrice)
+        
         menuCard[pizzaType][pizzaName]['small'] = smallPrice
         menuCard[pizzaType][pizzaName]['medium'] = mediumPrice
         menuCard[pizzaType][pizzaName]['large'] = largePrice
         menuCard[pizzaType][pizzaName]['student'] = studentPrice
-        pizzaMenuArr.push(`${pizzaType},${pizzaName},${smallPrice},${mediumPrice},${largePrice},${studentPrice}`)
+        pizzaMenuArr.push(`${pizzaType}, ${pizzaName}, ${smallPrice}, ${mediumPrice}, ${largePrice}, ${studentPrice}`)
     }
     return pizzaMenuArr.join('\n')
 }
-// let toppingMenuCard = toppingMenu(toppingData) 
+
+let toppingMenuCard = toppingMenu(toppingData) 
 let pizzaMenuCard = pizzaMenu(pizzaData)
 
-// console.log(pizzaMenuCard,"pizzaMenuCard")
 const fs = require('fs')
 const path = require('path')
 
+const csvFileForPizzaMenu = path.join(__dirname, 'pizzaMenu.csv')
+const csvFileForToppingMenu = path.join(__dirname, 'toppingMenu.csv')
+const csvFileCreation = path.join(__dirname, 'check2.csv')
 
-const filePath = path.join(__dirname, 'pizzaMenu.csv')
-
-fs.writeFile(filePath, pizzaMenuCard, err => {
-    if(err){
-        console.log(err)
+function isFileExists(fileName){
+    return fs.existsSync(fileName)
+}
+function createAndWriteCSVFile(content, fileName){
+    if(!isFileExists(fileName)){
+        fs.appendFileSync(fileName, content)
+        console.log('File created successfully');
     }
-})
-
+    else{
+        console.log('File already exists')
+    }
+}
+createAndWriteCSVFile(toppingMenuCard, csvFileForToppingMenu)
+createAndWriteCSVFile(pizzaMenuCard, csvFileForPizzaMenu)
+createAndWriteCSVFile(toppingMenuCard, csvFileForPizzaMenu)
+createAndWriteCSVFile('File created successfully!', csvFileCreation)
 // function validateOrder(pizzaType, pizza, size, toppingsList){
 
 //     const unavailableToppings = toppingsList.filter(topping => !toppingMenuCard[topping])
